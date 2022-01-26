@@ -1,4 +1,4 @@
-package backjoon;
+package com.ssafy;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

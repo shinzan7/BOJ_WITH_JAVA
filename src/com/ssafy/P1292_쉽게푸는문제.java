@@ -1,5 +1,4 @@
-package backjoon;
-
+package com.ssafy;
 import java.util.Scanner;
 
 public class P1292_쉽게푸는문제 {
