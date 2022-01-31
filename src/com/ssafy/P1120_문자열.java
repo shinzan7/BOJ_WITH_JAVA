@@ -1,44 +1,74 @@
 package com.ssafy;
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Map;
+
+import java.util.Set;
 
 public class P1120_문자열 {
 
-	public static void main(String[] args){
+	public static void main(String[] args) throws IOException {
 
-		Scanner scan = new Scanner(System.in);
-		String str1 = scan.next();
-		String str2 = scan.next();
-		scan.close();
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		String str = in.readLine();
 		
-		List<Character> copy1 = new ArrayList<Character>();
-		List<Character> copy2 = new ArrayList<Character>();
-		for (Character c : str1.toCharArray()) {
-			copy1.add(c);
-		}
-		for (Character c : str2.toCharArray()) {
-			copy2.add(c);
-		}
+		Map<Character, Integer> countMap = new HashMap<Character, Integer>();
 		
-		int cnt = Integer.MAX_VALUE; // 두 문자열의 차이의 개수
-		int temp = 0;
-		
-		for(int i=0; i<str2.length() - str1.length() + 1; i++) {// 검사 시작위치
-			for(int j=0; j<str1.length(); j++) {// str1 문자 한개씩 검사
-				if(copy1.get(j).equals(copy2.get(i + j)));
-				else {
-					temp++;
-				}
+		for(int i=0; i<str.length(); i++) {
+			char c = str.charAt(i);
+			
+			if(countMap.containsKey(c)) { // 이미 있는 단어
+				countMap.put(c, countMap.get(c) + 1);
+			}else { // 없는 단어
+				countMap.put(c, 1);
 			}
-			if(cnt > temp) { // 최솟값 갱신
-				cnt = temp;
-			}
-			temp = 0; // temp 초기화
 		}
 		
-		System.out.println(cnt);
+		Set<Character> keys = countMap.keySet(); //key모음
+		List<Character> keyList = new ArrayList<Character>(keys);
+		Collections.sort(keyList); //key모음 정렬
+		
+		List<Character> copy = new ArrayList<Character>();
+		
+		int oddCnt = 0;
+		
+		for (Character key : keys) {
+			if(countMap.get(key)%2 == 1) { //홀수일 경우 cnt 증가
+				oddCnt++;
+			}
+		}
+		char mid = ' '; //가운데 문자 인덱스
+
+		for(char k : keyList) { //copy에 앞부분 저장
+			int n = countMap.get(k) / 2;
+			
+			for(int j=0; j<n; j++) { //앞부분 출력
+				copy.add(k);
+			}
+			if(countMap.get(k)%2 == 1) {
+				mid = k;
+			}
+		}
+		
+		if(oddCnt > 1) {
+			System.out.println("I'm Sorry Hansoo");
+		}else {
+			for (Character c : copy) {//copy 출력
+				System.out.print(c);
+			}
+			if(oddCnt==1) { //가운데 문자 존재할때만 출력
+				System.out.print(mid);
+			}
+			for(int i=copy.size() - 1; i>=0; i--) {// copy 뒤집어서 출력
+				System.out.print(copy.get(i));
+			}
+		}
+		
 		
 	}// main
 
